@@ -1,0 +1,5 @@
+isolate,trait,n,PVE,PVE_SE,lambda_GC,top_p,significance
+D41-2,Lesion Type,257,0.748,0.086,0.993,1.61e-05,suggestive only
+D41-2,Diseased Leaf Area,257,0.342,0.173,0.883,1.34e-06,Bonferroni
+12YL-DL-3-2,Lesion Type,193,0.882,0.062,0.91,3.56e-07,Bonferroni
+12YL-DL-3-2,Diseased Leaf Area,193,0.295,0.195,0.892,0.000101,suggestive only

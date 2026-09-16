@@ -1,0 +1,7 @@
+gene_id,chr,trait,distance_bp,p_wald,annotation,known_gene,confidence
+LOC_Os10g11230,10,D41-2_DLA,0,2e-05,"transposon protein, putative, CACTA",—,low (transposon)
+LOC_Os10g12770,10,D41-2_DLA,0,1.8e-05,"retrotransposon protein, putative, Ty3-gypsy",—,low (retrotransposon)
+LOC_Os12g18360,12,12YL_LT,1392,2.70687e-06,"NB-ARC domain containing protein, expressed",Pita,HIGH (validated)
+LOC_Os11g39950,11,D41-2_DLA,2023,1.7e-05,"retrotransposon protein, putative, Ty3-gypsy",—,low (retrotransposon)
+LOC_Os11g30600,11,D41-2_DLA,3605,1.342216e-06,hypothetical protein,—,novel candidate
+LOC_Os12g18729,12,D41-2_LT,23119,1.802962e-05,expressed protein,Ptr/Pita2,HIGH (validated)
