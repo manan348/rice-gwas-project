@@ -1,0 +1,12 @@
+stages:
+  qc:
+    cmd: mkdir qc_out && plink --file data/sativas413 --geno ${geno} --maf ${maf} --mind ${mind} --make-bed --out qc_out/sativa_qc
+    deps:
+      - data/sativas413.ped
+      - data/sativas413.map
+    params:
+      - geno
+      - maf
+      - mind
+    outs:
+      - qc_out

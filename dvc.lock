@@ -1,0 +1,25 @@
+schema: '2.0'
+stages:
+  qc:
+    cmd: mkdir qc_out && plink --file data/sativas413 --geno 0.1 --maf 0.05 --mind
+      0.1 --make-bed --out qc_out/sativa_qc
+    deps:
+    - path: data/sativas413.map
+      hash: md5
+      md5: 90b529d9021d4362501c743f881f44fa
+      size: 849885
+    - path: data/sativas413.ped
+      hash: md5
+      md5: c0d5ed06be88a3d8eb764fa19a148dfb
+      size: 60971412
+    params:
+      params.yaml:
+        geno: 0.1
+        maf: 0.05
+        mind: 0.1
+    outs:
+    - path: qc_out
+      hash: md5
+      md5: cd5c65e6313ee5539630384c0986498a.dir
+      size: 3754948
+      nfiles: 6
