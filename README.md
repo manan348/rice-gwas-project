@@ -1,4 +1,4 @@
-# 🌾 Rice Blast Resistance GWAS
+# Rice Blast Resistance GWAS
 
 A genome-wide association study of blast disease (*Magnaporthe oryzae*) resistance in
 the RDP1 rice diversity panel — a classical-inference counterpart to **NeuroCrop**, a
@@ -10,15 +10,15 @@ figure in `results/` is produced by the scripts in `scripts/` from the raw input
 
 ---
 
-👤 **Author:** Abdul Manan
-🧪 *Plant Breeder | Machine & Deep Learning Researcher*
-📧 [abdulmanan2287@gmail.com](mailto:abdulmanan2287@gmail.com) | 🔗 [LinkedIn](https://www.linkedin.com/in/abdul-manan-0aa546332/) | 💻 [GitHub](https://github.com/manan348)
+**Author:** Abdul Manan
+*Plant Breeder | Machine & Deep Learning Researcher*
+[abdulmanan2287@gmail.com](mailto:abdulmanan2287@gmail.com) | [LinkedIn](https://www.linkedin.com/in/abdul-manan-0aa546332/) | [GitHub](https://github.com/manan348)
 
-🗓️ **Last Updated:** November 2026
+**Last Updated:** November 2026
 
 ---
 
-## 🎯 Project Objective
+## Project Objective
 
 > Can a standard GWAS pipeline, run entirely on public data, **recover genomic
 > regions already known to confer blast resistance**?
@@ -30,7 +30,7 @@ data** as the source paper, not an independent replication.
 
 ---
 
-## 📂 Dataset Information
+## Dataset Information
 
 | | Genotype data | Phenotype data |
 |---|---|---|
@@ -45,21 +45,21 @@ Annotation inputs (also DVC-tracked under `data/annotation/`):
 
 ---
 
-## 🧬 Pipeline
+## Pipeline
 
 ```
 parse_pheno → qc → dedup → pca → gemma → summarize → plots → gene_mapping
 ```
 
-### 1️⃣ Phenotype extraction (`01_parse_phenotypes.py`)
+### 1 Phenotype extraction (`01_parse_phenotypes.py`)
 Table S1 is parsed from the PDF with `pdfplumber` and a regex anchored on the
 subpopulation codes. The script asserts the expected counts: **314** accessions parsed
 (304 scored for D41-2, 228 for 12YL-DL-3-2), all 314 matching a genotyped NSFTV ID.
 
-### 2️⃣ Genotype QC (`02_qc.py`, PLINK 1.9)
+### 2 Genotype QC (`02_qc.py`, PLINK 1.9)
 `--geno 0.1 --maf 0.05 --mind 0.1` → **30,122 SNPs, 383 accessions**.
 
-### 3️⃣ Near-duplicate removal (`03_dedup.py`)
+### 3 Near-duplicate removal (`03_dedup.py`)
 In fully inbred lines PLINK's IBD estimate (`PI_HAT`) saturates: 2,960 of 73,153 pairs
 had `PI_HAT ≥ 0.99`, far too many to be real duplicates. Raw identity-by-state (`DST`)
 is used instead. 56 pairs have `DST ≥ 0.99`; the 31 pairs where both accessions are
@@ -71,13 +71,13 @@ All clusters are listed in `results/tables/duplicate_clusters.csv`.
 *Caveat:* near-duplicate pairs involving an unphenotyped accession are not removed;
 they only affect the PCA, not the association tests.
 
-### 4️⃣ Population structure (`04_pca.py`)
+### 4 Population structure (`04_pca.py`)
 PCA on LD-pruned markers (`--indep-pairwise 50 5 0.2`, 1,314 SNPs). PC1 and PC2 explain
 40.7 % and 19.1 % of the variance captured by the top 10 PCs; indica and aus cluster
 together, japonica splits into temperate/tropical groups, and admixed accessions fall
 between them.
 
-### 5️⃣ Association testing (`05_gemma.py`, GEMMA 0.98.5)
+### 5 Association testing (`05_gemma.py`, GEMMA 0.98.5)
 Univariate LMM (`-lmm 4`, Wald test) per trait, with a centred kinship matrix
 (`-gk 1`) and intercept + PC1–3 as covariates. MAF ≥ 0.05 and missingness ≤ 0.05 are
 re-applied **within each trait's analysed subset** (`-maf 0.05 -miss 0.05`).
@@ -94,7 +94,7 @@ Bonferroni = 0.05 / n, suggestive = 1 / n (≈ 1.9 × 10⁻⁶ and ≈ 3.8 × 10
 
 Source: `results/tables/gwas_run_summary.csv`.
 
-#### 📈 Observations
+#### Observations
 - **Two traits clear Bonferroni** (12YL-DL-3-2 LT and D41-2 DLA; the latter only just:
   1.34 × 10⁻⁶ vs 1.92 × 10⁻⁶). D41-2 LT reaches the suggestive level only, and
   12YL-DL-3-2 DLA has no SNP even at the suggestive threshold.
@@ -107,7 +107,7 @@ Source: `results/tables/gwas_run_summary.csv`.
   isolates, consistent with LT being the more direct readout of major-gene resistance.
   The PVE standard errors for DLA are large, so this comparison is indicative only.
 
-### 6️⃣ Candidate gene mapping (`08_gene_mapping.py`)
+### 6 Candidate gene mapping (`08_gene_mapping.py`)
 The 31 suggestive-or-better SNPs are **lifted from MSU6 to MSU7** with RiceDiversity's
 official per-SNP table before any distance is computed, so SNPs and gene models share
 one coordinate system. (The shift between builds is ~2.6 kb on chr12, ~16 kb on chr10
@@ -116,7 +116,7 @@ recorded (`work/mapping/snp_gene_pairs.csv`); `top_candidate_genes.csv` lists th
 nearest gene to each hit SNP plus the validation genes, with the strongest p-value per
 gene. Genes annotated as transposon/retrotransposon-related are marked low-confidence.
 
-**✅ Validation: the chr12 peak covers *Pita* and *Ptr***
+** Validation: the chr12 peak covers *Pita* and *Ptr***
 - ***Pita*** (`LOC_Os12g18360`, NB-ARC domain protein): two 12YL-DL-3-2 LT SNPs lie
   **inside** the gene (`id12004093`, p = 1.08 × 10⁻⁶, Bonferroni; `fd2`, p = 2.71 × 10⁻⁶).
 - ***Ptr / Pita2*** (`LOC_Os12g18729`): 12YL-DL-3-2 LT SNPs 29–37 kb away
@@ -129,10 +129,10 @@ gene. Genes annotated as transposon/retrotransposon-related are marked low-confi
   The lead SNP itself (`id12004284`, 11.19 Mb) sits 0.9 kb from `LOC_Os12g19304`, which
   is best read as a passenger on the same haplotype, not a new candidate.
 
-**🔍 Signals outside chr12 (single-trait, D41-2 DLA)**
+** Signals outside chr12 (single-trait, D41-2 DLA)**
 - Chr11, `id11006398` (p = 1.34 × 10⁻⁶, the only Bonferroni hit outside chr12) lies
   inside `LOC_Os11g31330` (*no apical meristem* / NAC-family protein) on MSU7.
-  ⚠️ An earlier version of this README named `LOC_Os11g30600` here; that came from
+   An earlier version of this README named `LOC_Os11g30600` here; that came from
   comparing MSU6 SNP positions with MSU7 genes (a ~466 kb shift on this chromosome) and
   is retracted.
 - Chr10 (3 suggestive SNPs, 6.2–7.1 Mb on MSU6): nearest genes include a protein kinase
@@ -144,7 +144,7 @@ as leads for replication, not as discoveries.
 
 ---
 
-## 📊 Outputs
+## Outputs
 
 `results/tables/`
 | File | Content |
@@ -161,7 +161,7 @@ as leads for replication, not as discoveries.
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 - Modest sample sizes (193–257 per trait) and only 44K markers: limited power, and
   the chr12 signal cannot be fine-mapped below the ~2 Mb haplotype block.
@@ -174,7 +174,7 @@ as leads for replication, not as discoveries.
 
 ---
 
-## ▶️ Reproducing the analysis
+## Reproducing the analysis
 
 Requires Linux, WSL or Colab (PLINK and GEMMA are Linux binaries).
 
@@ -195,7 +195,7 @@ dvc metrics show
 Change any setting in `params.yaml` (QC filters, number of PCs, thresholds, mapping
 window, …) and re-run `dvc repro`; only the affected stages re-execute.
 
-## 📁 Repository structure
+## Repository structure
 
 ```
 ├── data/                    # DVC-tracked raw inputs (data.dvc)
@@ -215,7 +215,7 @@ window, …) and re-run `dvc repro`; only the affected stages re-execute.
 └── README.md
 ```
 
-## 📚 Data sources
+## Data sources
 
 - RiceDiversity 44K genotype data and SNP coordinate tables: http://www.ricediversity.org/data/sets/44kgwas/
 - MSU Rice Genome Annotation Project, release 7: http://rice.uga.edu/
