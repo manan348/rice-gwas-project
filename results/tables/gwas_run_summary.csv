@@ -1,5 +1,5 @@
-isolate,trait,n,PVE,PVE_SE,lambda_GC,top_p,significance
-D41-2,Lesion Type,257,0.748,0.086,0.993,1.61e-05,suggestive only
-D41-2,Diseased Leaf Area,257,0.342,0.173,0.883,1.34e-06,Bonferroni
-12YL-DL-3-2,Lesion Type,193,0.882,0.062,0.91,3.56e-07,Bonferroni
-12YL-DL-3-2,Diseased Leaf Area,193,0.295,0.195,0.892,0.000101,suggestive only
+trait_id,isolate,trait,n,n_snps_tested,PVE,PVE_SE,lambda_GC,top_p,bonferroni_p,suggestive_p,n_bonferroni_snps,n_suggestive_or_better_snps,significance
+D41-2_LT,D41-2,Lesion Type,257,26059,0.748,0.086,0.994,1.61e-05,1.92e-06,3.84e-05,0,6,suggestive only
+D41-2_DLA,D41-2,Diseased Leaf Area,257,26059,0.342,0.173,0.892,1.34e-06,1.92e-06,3.84e-05,1,6,Bonferroni
+12YL_LT,12YL-DL-3-2,Lesion Type,193,26203,0.882,0.062,0.911,3.56e-07,1.91e-06,3.82e-05,9,19,Bonferroni
+12YL_DLA,12YL-DL-3-2,Diseased Leaf Area,193,26203,0.295,0.195,0.89,0.000101,1.91e-06,3.82e-05,0,0,no association

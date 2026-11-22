@@ -1,25 +1,448 @@
 schema: '2.0'
 stages:
   qc:
-    cmd: mkdir qc_out && plink --file data/sativas413 --geno 0.1 --maf 0.05 --mind
-      0.1 --make-bed --out qc_out/sativa_qc
+    cmd: python scripts/02_qc.py
     deps:
-    - path: data/sativas413.map
+    - path: data/genotype
       hash: md5
-      md5: 90b529d9021d4362501c743f881f44fa
-      size: 849885
-    - path: data/sativas413.ped
+      md5: 1266b8ed987ecde308595e3e53fae22a.dir
+      size: 61832257
+      nfiles: 3
+    - path: scripts/02_qc.py
       hash: md5
-      md5: c0d5ed06be88a3d8eb764fa19a148dfb
-      size: 60971412
+      md5: d16598ec4449d00d36efe3de557933f3
+      size: 1137
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
     params:
       params.yaml:
-        geno: 0.1
-        maf: 0.05
-        mind: 0.1
+        inputs.genotype_prefix: data/genotype/sativas413
+        qc:
+          geno: 0.1
+          maf: 0.05
+          mind: 0.1
     outs:
-    - path: qc_out
+    - path: work/qc
       hash: md5
-      md5: cd5c65e6313ee5539630384c0986498a.dir
-      size: 3754948
-      nfiles: 6
+      md5: 91290fee62f0acddf5a3038d0ee5dcc7.dir
+      size: 3724083
+      nfiles: 7
+  parse_pheno:
+    cmd: python scripts/01_parse_phenotypes.py
+    deps:
+    - path: data/genotype/sativas413.fam
+      hash: md5
+      md5: 6b6f919055be6425b4729771b971c28d
+      size: 10960
+      isexec: true
+    - path: data/phenotype
+      hash: md5
+      md5: 67b9d308f46e32a234573214ea0f706f.dir
+      size: 305412
+      nfiles: 1
+    - path: scripts/01_parse_phenotypes.py
+      hash: md5
+      md5: 1f4c8cb1a35130da2eaa4bc5251a5f79
+      size: 2806
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    params:
+      params.yaml:
+        inputs.genotype_prefix: data/genotype/sativas413
+        inputs.phenotype_pdf: 
+          data/phenotype/lin2018_tableS1_blast_phenotypes.pdf
+    outs:
+    - path: work/pheno
+      hash: md5
+      md5: a97e20bb52bf8884fd6b02c217af4fe5.dir
+      size: 38644
+      nfiles: 3
+  dedup:
+    cmd: python scripts/03_dedup.py
+    deps:
+    - path: scripts/03_dedup.py
+      hash: md5
+      md5: 656a702e1b1f69e204e9c02d5121cd9b
+      size: 3981
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    - path: work/pheno
+      hash: md5
+      md5: a97e20bb52bf8884fd6b02c217af4fe5.dir
+      size: 38644
+      nfiles: 3
+    - path: work/qc
+      hash: md5
+      md5: 91290fee62f0acddf5a3038d0ee5dcc7.dir
+      size: 3724083
+      nfiles: 7
+    params:
+      params.yaml:
+        dedup:
+          dst_threshold: 0.99
+    outs:
+    - path: results/tables/duplicate_clusters.csv
+      hash: md5
+      md5: a4424c16a394f558a8aba038f3d15402
+      size: 1895
+      isexec: true
+    - path: work/dedup
+      hash: md5
+      md5: 74e8d41b17d36abe2323b5842c714895.dir
+      size: 15885844
+      nfiles: 14
+  pca:
+    cmd: python scripts/04_pca.py
+    deps:
+    - path: scripts/04_pca.py
+      hash: md5
+      md5: 2fc50c3fe3393e86b7b193505a38cfaa
+      size: 3098
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    - path: work/dedup
+      hash: md5
+      md5: 74e8d41b17d36abe2323b5842c714895.dir
+      size: 15885844
+      nfiles: 14
+    - path: work/pheno
+      hash: md5
+      md5: a97e20bb52bf8884fd6b02c217af4fe5.dir
+      size: 38644
+      nfiles: 3
+    params:
+      params.yaml:
+        pca:
+          ld_window: 50
+          ld_step: 5
+          ld_r2: 0.2
+          n_pcs_compute: 10
+    outs:
+    - path: results/figures/pca_subpopulation.png
+      hash: md5
+      md5: 34a2d4d0e7941d8d722b9724199ab7aa
+      size: 283718
+      isexec: true
+    - path: work/pca
+      hash: md5
+      md5: b9778b8a7ab5682661f5a52c7c0a7414.dir
+      size: 365642
+      nfiles: 9
+  gemma:
+    cmd: python scripts/05_gemma.py
+    deps:
+    - path: scripts/05_gemma.py
+      hash: md5
+      md5: 3352b6d3429eb37ccbd7fdf5bfce1cd8
+      size: 2352
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    - path: work/dedup
+      hash: md5
+      md5: 74e8d41b17d36abe2323b5842c714895.dir
+      size: 15885844
+      nfiles: 14
+    - path: work/pca
+      hash: md5
+      md5: b9778b8a7ab5682661f5a52c7c0a7414.dir
+      size: 365642
+      nfiles: 9
+    - path: work/pheno
+      hash: md5
+      md5: a97e20bb52bf8884fd6b02c217af4fe5.dir
+      size: 38644
+      nfiles: 3
+    params:
+      params.yaml:
+        gemma:
+          n_pcs: 3
+          maf: 0.05
+          miss: 0.05
+        traits:
+        - id: D41-2_LT
+          label: D41-2 Lesion Type
+          slug: d41_2_LT
+        - id: D41-2_DLA
+          label: D41-2 Diseased Leaf Area
+          slug: d41_2_DLA
+        - id: 12YL_LT
+          label: 12YL-DL-3-2 Lesion Type
+          slug: 12yl_LT
+        - id: 12YL_DLA
+          label: 12YL-DL-3-2 Diseased Leaf Area
+          slug: 12yl_DLA
+    outs:
+    - path: work/gemma
+      hash: md5
+      md5: dbe6303d3e5697d74a125691ccc29740.dir
+      size: 16256742
+      nfiles: 12
+  summarize:
+    cmd: python scripts/06_summarize.py
+    deps:
+    - path: scripts/06_summarize.py
+      hash: md5
+      md5: da5ecc2ebd4d8cf175ba36056dae6012
+      size: 3928
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    - path: work/dedup/summary.json
+      hash: md5
+      md5: f99cfc9c08cf8c6fcb4fe2fb3785df6d
+      size: 818
+      isexec: true
+    - path: work/gemma
+      hash: md5
+      md5: dbe6303d3e5697d74a125691ccc29740.dir
+      size: 16256742
+      nfiles: 12
+    - path: work/pca/summary.json
+      hash: md5
+      md5: b900f4c76e73640902bf426171de45c7
+      size: 327
+      isexec: true
+    - path: work/pheno/summary.json
+      hash: md5
+      md5: ee6d082abb23c095a0e2d57e21177ac0
+      size: 108
+      isexec: true
+    - path: work/qc/summary.json
+      hash: md5
+      md5: 53819b6a72d9573532a2d4cb4e44d666
+      size: 95
+      isexec: true
+    params:
+      params.yaml:
+        thresholds:
+          bonferroni_alpha: 0.05
+        traits:
+        - id: D41-2_LT
+          label: D41-2 Lesion Type
+          slug: d41_2_LT
+        - id: D41-2_DLA
+          label: D41-2 Diseased Leaf Area
+          slug: d41_2_DLA
+        - id: 12YL_LT
+          label: 12YL-DL-3-2 Lesion Type
+          slug: 12yl_LT
+        - id: 12YL_DLA
+          label: 12YL-DL-3-2 Diseased Leaf Area
+          slug: 12yl_DLA
+    outs:
+    - path: results/metrics.json
+      hash: md5
+      md5: 0a9527d466947a66ca89d0036cd6d51b
+      size: 2535
+      isexec: true
+    - path: results/tables/gwas_run_summary.csv
+      hash: md5
+      md5: 8ad993cfe62115cec271c41dd6a07189
+      size: 574
+      isexec: true
+    - path: results/tables/suggestive_hits_all_traits.csv
+      hash: md5
+      md5: 07b9bc4aef900a39e110d8c66f6ff02b
+      size: 2526
+      isexec: true
+  plots:
+    cmd: python scripts/07_plots.py
+    deps:
+    - path: results/tables/suggestive_hits_all_traits.csv
+      hash: md5
+      md5: 07b9bc4aef900a39e110d8c66f6ff02b
+      size: 2526
+      isexec: true
+    - path: scripts/07_plots.py
+      hash: md5
+      md5: c396545ccd0a107c8c49634582401f0b
+      size: 4704
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    - path: work/gemma
+      hash: md5
+      md5: dbe6303d3e5697d74a125691ccc29740.dir
+      size: 16256742
+      nfiles: 12
+    params:
+      params.yaml:
+        thresholds:
+          bonferroni_alpha: 0.05
+        traits:
+        - id: D41-2_LT
+          label: D41-2 Lesion Type
+          slug: d41_2_LT
+        - id: D41-2_DLA
+          label: D41-2 Diseased Leaf Area
+          slug: d41_2_DLA
+        - id: 12YL_LT
+          label: 12YL-DL-3-2 Lesion Type
+          slug: 12yl_LT
+        - id: 12YL_DLA
+          label: 12YL-DL-3-2 Diseased Leaf Area
+          slug: 12yl_DLA
+    outs:
+    - path: results/figures/hits_summary_by_chromosome.png
+      hash: md5
+      md5: 0351028e18b2261ba2f1ecf50215113e
+      size: 107030
+      isexec: true
+    - path: results/figures/manhattan_12yl_DLA.png
+      hash: md5
+      md5: dbf090e6744f11784a67201e70911f94
+      size: 1216838
+      isexec: true
+    - path: results/figures/manhattan_12yl_LT.png
+      hash: md5
+      md5: 0e60de22112d3f03bb9d8f503909af24
+      size: 1096127
+      isexec: true
+    - path: results/figures/manhattan_all_traits_panel.png
+      hash: md5
+      md5: 51014a086fb1b9602d014bcc8d0c8135
+      size: 4091683
+      isexec: true
+    - path: results/figures/manhattan_d41_2_DLA.png
+      hash: md5
+      md5: e8e53347b0fd9514dc3e3efd48bf5654
+      size: 1174813
+      isexec: true
+    - path: results/figures/manhattan_d41_2_LT.png
+      hash: md5
+      md5: 3ae570a780122c555ec86d1695421a1c
+      size: 1205023
+      isexec: true
+    - path: results/figures/qq_12yl_DLA.png
+      hash: md5
+      md5: d3637226a95b20b21fa76247b85d3694
+      size: 142427
+      isexec: true
+    - path: results/figures/qq_12yl_LT.png
+      hash: md5
+      md5: f01a2225d4d4818da8d8ac863bb47c0a
+      size: 139390
+      isexec: true
+    - path: results/figures/qq_d41_2_DLA.png
+      hash: md5
+      md5: 85b537bc9561e977497ba2048907a4c8
+      size: 140608
+      isexec: true
+    - path: results/figures/qq_d41_2_LT.png
+      hash: md5
+      md5: 0d27eeed9dd7f4c92908d13e0a8b4a27
+      size: 137765
+      isexec: true
+  gene_mapping:
+    cmd: python scripts/08_gene_mapping.py
+    deps:
+    - path: data/annotation
+      hash: md5
+      md5: 85303e075dd1a657356d4b205f23a60d.dir
+      size: 9061608
+      nfiles: 2
+    - path: results/tables/suggestive_hits_all_traits.csv
+      hash: md5
+      md5: 07b9bc4aef900a39e110d8c66f6ff02b
+      size: 2526
+      isexec: true
+    - path: scripts/08_gene_mapping.py
+      hash: md5
+      md5: 6aafa0c99db2cfdc56c944ff9a4b9dd9
+      size: 10760
+      isexec: true
+    - path: scripts/gwas_utils.py
+      hash: md5
+      md5: 258143881165a7657dd13cd10ccfc1e5
+      size: 4370
+      isexec: true
+    - path: work/dedup
+      hash: md5
+      md5: 74e8d41b17d36abe2323b5842c714895.dir
+      size: 15885844
+      nfiles: 14
+    - path: work/gemma
+      hash: md5
+      md5: dbe6303d3e5697d74a125691ccc29740.dir
+      size: 16256742
+      nfiles: 12
+    - path: work/pheno
+      hash: md5
+      md5: a97e20bb52bf8884fd6b02c217af4fe5.dir
+      size: 38644
+      nfiles: 3
+    params:
+      params.yaml:
+        inputs.gene_annotation: data/annotation/msu7_locus_brief_info.7.0.txt
+        inputs.snp_liftover: 
+          data/annotation/RiceDiversity.44K.MSU6.SNP_Information.MSU7.txt
+        mapping:
+          window_bp: 200000
+          chr12_region:
+          - 9500000
+          - 14500000
+          known_genes:
+            Pita: LOC_Os12g18360
+            Ptr/Pita2: LOC_Os12g18729
+        thresholds:
+          bonferroni_alpha: 0.05
+        traits:
+        - id: D41-2_LT
+          label: D41-2 Lesion Type
+          slug: d41_2_LT
+        - id: D41-2_DLA
+          label: D41-2 Diseased Leaf Area
+          slug: d41_2_DLA
+        - id: 12YL_LT
+          label: 12YL-DL-3-2 Lesion Type
+          slug: 12yl_LT
+        - id: 12YL_DLA
+          label: 12YL-DL-3-2 Diseased Leaf Area
+          slug: 12yl_DLA
+    outs:
+    - path: results/figures/candidate_genes_chr12.png
+      hash: md5
+      md5: c42bdc2c42386e851fe579c60f023a45
+      size: 435427
+      isexec: true
+    - path: results/tables/top_candidate_genes.csv
+      hash: md5
+      md5: d2fb1fc687f1888439139fe732f406f2
+      size: 3742
+      isexec: true
+    - path: results/tables/validation_pita_ptr_hits.csv
+      hash: md5
+      md5: 276edf0a7c127bdf18a7074df0460698
+      size: 2323
+      isexec: true
+    - path: work/mapping
+      hash: md5
+      md5: 3cabd5622fd154d2dee2ea9fc3abbe9e.dir
+      size: 548927
+      nfiles: 9

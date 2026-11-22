@@ -1,4 +1,55 @@
-geno: 0.1
-maf: 0.05
-mind: 0.1
-n_pcs: 3
+# Parameters for every stage of the rice blast GWAS pipeline (see dvc.yaml).
+# Changing a value here and running `dvc repro` re-runs only the affected stages.
+
+inputs:
+  genotype_prefix: data/genotype/sativas413          # PLINK text fileset (.ped/.map/.fam)
+  phenotype_pdf: data/phenotype/lin2018_tableS1_blast_phenotypes.pdf
+  # SNP positions in the .map are MSU6 (IRGSP build 5). Gene models are MSU7 (IRGSP-1.0),
+  # so hit SNPs are lifted to MSU7 with RiceDiversity's official per-SNP coordinate table
+  # before any SNP-gene distance is computed.
+  snp_liftover: data/annotation/RiceDiversity.44K.MSU6.SNP_Information.MSU7.txt
+  gene_annotation: data/annotation/msu7_locus_brief_info.7.0.txt
+
+qc:
+  geno: 0.1    # max per-SNP missingness
+  maf: 0.05    # min minor-allele frequency (whole panel)
+  mind: 0.1    # max per-accession missingness
+
+dedup:
+  dst_threshold: 0.99   # identity-by-state (PLINK DST) cut-off for near-duplicate pairs
+
+pca:
+  ld_window: 50         # --indep-pairwise window (SNPs)
+  ld_step: 5
+  ld_r2: 0.2
+  n_pcs_compute: 10
+
+gemma:
+  n_pcs: 3              # genotype PCs used as fixed-effect covariates
+  maf: 0.05             # re-applied within each trait's analysed subset
+  miss: 0.05            # GEMMA default per-SNP missingness filter (made explicit)
+
+thresholds:
+  bonferroni_alpha: 0.05   # genome-wide threshold = alpha / n_tested_snps
+  # suggestive threshold = 1 / n_tested_snps (one expected false positive per scan)
+
+mapping:
+  window_bp: 200000        # search window around each hit SNP for candidate genes (MSU7 bp)
+  chr12_region: [9500000, 14500000]   # region drawn in candidate_genes_chr12.png (MSU7 bp)
+  known_genes:             # cloned blast-resistance genes used as the validation checkpoint
+    Pita: LOC_Os12g18360
+    Ptr/Pita2: LOC_Os12g18729
+
+traits:
+  - id: D41-2_LT
+    label: D41-2 Lesion Type
+    slug: d41_2_LT
+  - id: D41-2_DLA
+    label: D41-2 Diseased Leaf Area
+    slug: d41_2_DLA
+  - id: 12YL_LT
+    label: 12YL-DL-3-2 Lesion Type
+    slug: 12yl_LT
+  - id: 12YL_DLA
+    label: 12YL-DL-3-2 Diseased Leaf Area
+    slug: 12yl_DLA

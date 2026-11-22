@@ -1,0 +1,11 @@
+name: rice-gwas
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - plink=1.90b7.2      # optional: or use scripts/tools/get_binaries.sh
+  - gemma=0.98.5        # optional: or use scripts/tools/get_binaries.sh
+  - pip
+  - pip:
+      - -r requirements.txt

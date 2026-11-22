@@ -1,0 +1,109 @@
+{
+  "phenotypes": {
+    "pdf_pages": 13,
+    "parsed": 314,
+    "D41-2": 304,
+    "12YL": 228,
+    "genotyped": 413,
+    "matched": 314
+  },
+  "qc": {
+    "snps_in": 36901,
+    "accessions_in": 413,
+    "snps_pass": 30122,
+    "accessions_pass": 383
+  },
+  "dedup": {
+    "pairs_total": 73153,
+    "pairs_pi_hat_ge_0.99": 2960,
+    "pairs_pi_hat_ge_0.5": 2960,
+    "dst_threshold": 0.99,
+    "pairs_dst_ge_threshold": 56,
+    "pairs_dst_both_phenotyped": 31,
+    "clusters": 18,
+    "accessions_in_clusters": 41,
+    "removed": 23,
+    "phenotyped_after_qc": 290,
+    "accessions_after_dedup": 360,
+    "phenotyped_after_dedup": 267
+  },
+  "pca": {
+    "ld_pruned_snps": 1314,
+    "accessions": 360,
+    "pct_of_computed": [
+      40.71,
+      19.09,
+      11.88,
+      6.77,
+      5.05,
+      4.91,
+      4.02,
+      2.87,
+      2.49,
+      2.21
+    ]
+  },
+  "gwas": {
+    "D41-2_LT": {
+      "isolate": "D41-2",
+      "trait": "Lesion Type",
+      "n": 257,
+      "n_snps_tested": 26059,
+      "PVE": 0.748,
+      "PVE_SE": 0.086,
+      "lambda_GC": 0.994,
+      "top_p": "1.61e-05",
+      "bonferroni_p": "1.92e-06",
+      "suggestive_p": "3.84e-05",
+      "n_bonferroni_snps": 0,
+      "n_suggestive_or_better_snps": 6,
+      "significance": "suggestive only"
+    },
+    "D41-2_DLA": {
+      "isolate": "D41-2",
+      "trait": "Diseased Leaf Area",
+      "n": 257,
+      "n_snps_tested": 26059,
+      "PVE": 0.342,
+      "PVE_SE": 0.173,
+      "lambda_GC": 0.892,
+      "top_p": "1.34e-06",
+      "bonferroni_p": "1.92e-06",
+      "suggestive_p": "3.84e-05",
+      "n_bonferroni_snps": 1,
+      "n_suggestive_or_better_snps": 6,
+      "significance": "Bonferroni"
+    },
+    "12YL_LT": {
+      "isolate": "12YL-DL-3-2",
+      "trait": "Lesion Type",
+      "n": 193,
+      "n_snps_tested": 26203,
+      "PVE": 0.882,
+      "PVE_SE": 0.062,
+      "lambda_GC": 0.911,
+      "top_p": "3.56e-07",
+      "bonferroni_p": "1.91e-06",
+      "suggestive_p": "3.82e-05",
+      "n_bonferroni_snps": 9,
+      "n_suggestive_or_better_snps": 19,
+      "significance": "Bonferroni"
+    },
+    "12YL_DLA": {
+      "isolate": "12YL-DL-3-2",
+      "trait": "Diseased Leaf Area",
+      "n": 193,
+      "n_snps_tested": 26203,
+      "PVE": 0.295,
+      "PVE_SE": 0.195,
+      "lambda_GC": 0.89,
+      "top_p": "0.000101",
+      "bonferroni_p": "1.91e-06",
+      "suggestive_p": "3.82e-05",
+      "n_bonferroni_snps": 0,
+      "n_suggestive_or_better_snps": 0,
+      "significance": "no association"
+    }
+  },
+  "suggestive_or_better_snps_total": 31
+}

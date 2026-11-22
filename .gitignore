@@ -1,2 +1,12 @@
+# DVC-tracked raw data (see data.dvc) and pipeline intermediates (see dvc.yaml)
 /data
-/qc_out
+/work
+
+# Pipeline binaries downloaded by scripts/tools/get_binaries.sh
+/bin
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/

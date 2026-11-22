@@ -1,12 +1,150 @@
+# Rice blast GWAS pipeline. Run from the repo root on Linux / WSL / Colab:
+#   bash scripts/tools/get_binaries.sh   # PLINK 1.90b7.2 + GEMMA 0.98.5 -> ./bin
+#   dvc pull && dvc repro
+# Intermediates live in work/ (DVC-cached); final tables/figures are committed to git.
 stages:
-  qc:
-    cmd: mkdir qc_out && plink --file data/sativas413 --geno ${geno} --maf ${maf} --mind ${mind} --make-bed --out qc_out/sativa_qc
+  parse_pheno:
+    cmd: python scripts/01_parse_phenotypes.py
     deps:
-      - data/sativas413.ped
-      - data/sativas413.map
+      - scripts/01_parse_phenotypes.py
+      - scripts/gwas_utils.py
+      - data/phenotype
+      - data/genotype/sativas413.fam
     params:
-      - geno
-      - maf
-      - mind
+      - inputs.phenotype_pdf
+      - inputs.genotype_prefix
     outs:
-      - qc_out
+      - work/pheno
+
+  qc:
+    cmd: python scripts/02_qc.py
+    deps:
+      - scripts/02_qc.py
+      - scripts/gwas_utils.py
+      - data/genotype
+    params:
+      - inputs.genotype_prefix
+      - qc
+    outs:
+      - work/qc
+
+  dedup:
+    cmd: python scripts/03_dedup.py
+    deps:
+      - scripts/03_dedup.py
+      - scripts/gwas_utils.py
+      - work/qc
+      - work/pheno
+    params:
+      - dedup
+    outs:
+      - work/dedup
+      - results/tables/duplicate_clusters.csv:
+          cache: false
+
+  pca:
+    cmd: python scripts/04_pca.py
+    deps:
+      - scripts/04_pca.py
+      - scripts/gwas_utils.py
+      - work/dedup
+      - work/pheno
+    params:
+      - pca
+    outs:
+      - work/pca
+      - results/figures/pca_subpopulation.png:
+          cache: false
+
+  gemma:
+    cmd: python scripts/05_gemma.py
+    deps:
+      - scripts/05_gemma.py
+      - scripts/gwas_utils.py
+      - work/dedup
+      - work/pheno
+      - work/pca
+    params:
+      - gemma
+      - traits
+    outs:
+      - work/gemma
+
+  summarize:
+    cmd: python scripts/06_summarize.py
+    deps:
+      - scripts/06_summarize.py
+      - scripts/gwas_utils.py
+      - work/gemma
+      - work/pheno/summary.json
+      - work/qc/summary.json
+      - work/dedup/summary.json
+      - work/pca/summary.json
+    params:
+      - thresholds
+      - traits
+    outs:
+      - results/tables/gwas_run_summary.csv:
+          cache: false
+      - results/tables/suggestive_hits_all_traits.csv:
+          cache: false
+    metrics:
+      - results/metrics.json:
+          cache: false
+
+  plots:
+    cmd: python scripts/07_plots.py
+    deps:
+      - scripts/07_plots.py
+      - scripts/gwas_utils.py
+      - work/gemma
+      - results/tables/suggestive_hits_all_traits.csv
+    params:
+      - thresholds
+      - traits
+    outs:
+      - results/figures/manhattan_d41_2_LT.png:
+          cache: false
+      - results/figures/manhattan_d41_2_DLA.png:
+          cache: false
+      - results/figures/manhattan_12yl_LT.png:
+          cache: false
+      - results/figures/manhattan_12yl_DLA.png:
+          cache: false
+      - results/figures/qq_d41_2_LT.png:
+          cache: false
+      - results/figures/qq_d41_2_DLA.png:
+          cache: false
+      - results/figures/qq_12yl_LT.png:
+          cache: false
+      - results/figures/qq_12yl_DLA.png:
+          cache: false
+      - results/figures/manhattan_all_traits_panel.png:
+          cache: false
+      - results/figures/hits_summary_by_chromosome.png:
+          cache: false
+
+  gene_mapping:
+    cmd: python scripts/08_gene_mapping.py
+    deps:
+      - scripts/08_gene_mapping.py
+      - scripts/gwas_utils.py
+      - data/annotation
+      - work/gemma
+      - work/dedup
+      - work/pheno
+      - results/tables/suggestive_hits_all_traits.csv
+    params:
+      - inputs.snp_liftover
+      - inputs.gene_annotation
+      - mapping
+      - thresholds
+      - traits
+    outs:
+      - work/mapping
+      - results/tables/top_candidate_genes.csv:
+          cache: false
+      - results/tables/validation_pita_ptr_hits.csv:
+          cache: false
+      - results/figures/candidate_genes_chr12.png:
+          cache: false

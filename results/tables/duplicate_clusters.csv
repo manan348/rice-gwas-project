@@ -1,0 +1,42 @@
+cluster,NSFTV_ID,Name,Country,Subgroup,F_MISS,kept
+1,1,Agostano,Italy,TEJ,0.008366,False
+1,263,Maratelli,Italy,TEJ,0.005146,True
+2,24,Carolina Gold,United States,TRJ,0.002257,True
+2,26,Carolina Gold Sel,United States,TRJ,0.002789,False
+2,65,Honduras,Honduras,TRJ,0.003519,False
+2,229,Niquen,Chile,TRJ,0.002955,False
+2,375,Upland,PONAPE ISLAND,TRJ,0.002888,False
+3,25,Carolina Gold,United States,TRJ,0.004714,True
+3,185,British Honduras Creole,Belize,TRJ,0.02377,False
+4,27,NSF-TV 27,Pakistan,TRJ,0.004548,True
+4,73,IRAT 177,French Guiana,TRJ,0.005445,False
+4,195,IRAT 13,Cote D'Ivoire,TRJ,0.01849,False
+5,45,Dom-sufid,Iran,AROMATIC,0.01633,False
+5,191,Dom Zard,Iran,AROMATIC,0.01584,True
+6,46,Dourado Agulha,Brazil,TRJ,0.007071,False
+6,107,NSF-TV 107,Bangladesh,TRJ,0.007038,True
+7,84,Kaniranga,Indonesia,TRJ,0.009661,True
+7,381,325,Taiwan,TRJ,0.01099,False
+8,143,Shinriki,Japan,TEJ,0.001959,True
+8,216,Yabani Montakhab 7,Egypt,TEJ,0.009262,False
+9,173,Nipponbare,Japan,TEJ,0.004781,True
+9,639,Nipponbare,Japan,TEJ,0.02915,False
+10,174,Azucena,Philippines,TRJ,0.006341,False
+10,635,Azucena,Philipppines,TRJ,0.00581,True
+11,180,Benllok,Peru,TEJ,0.003021,True
+11,338,Sitpwa,Myanmar,TEJ,0.01255,False
+12,205,Rinaldo Bersani,Italy,ADMIX,0.003187,True
+12,305,Doble Carolina Rinaldo Ba,Uruguay,ADMIX,0.008399,False
+13,234,Aijiaonante,China,IND,0.0239,False
+13,299,SML 242,Suriname,IND,0.01547,True
+14,239,WAB 502-13-4-1,Cote D'Ivoire,TRJ,0.007005,True
+14,240,WAB 501-11-5-1,Cote D'Ivoire,TRJ,0.01809,False
+15,277,Gambiaka Sebela,Mali,TEJ,0.002058,True
+15,297,Bahia,Spain,TEJ,0.002357,False
+15,303,Kihogo,Tanzania,TEJ,0.002955,False
+16,314,CTG 1516,Bangladesh,AUS,0.03419,False
+16,322,DM 59,Bangladesh,AUS,0.01935,True
+17,321,DM 56,Bangladesh,AUS,0.01607,True
+17,324,DV 123,Bangladesh,AUS,0.02749,False
+18,387,M-202,United States-CA,ADMIX,0.02958,False
+18,645,M-202,United States-CA,ADMIX,0.00644,True

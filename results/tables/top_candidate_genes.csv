@@ -1,7 +1,28 @@
-gene_id,chr,trait,distance_bp,p_wald,annotation,known_gene,confidence
-LOC_Os10g11230,10,D41-2_DLA,0,2e-05,"transposon protein, putative, CACTA",—,low (transposon)
-LOC_Os10g12770,10,D41-2_DLA,0,1.8e-05,"retrotransposon protein, putative, Ty3-gypsy",—,low (retrotransposon)
-LOC_Os12g18360,12,12YL_LT,1392,2.70687e-06,"NB-ARC domain containing protein, expressed",Pita,HIGH (validated)
-LOC_Os11g39950,11,D41-2_DLA,2023,1.7e-05,"retrotransposon protein, putative, Ty3-gypsy",—,low (retrotransposon)
-LOC_Os11g30600,11,D41-2_DLA,3605,1.342216e-06,hypothetical protein,—,novel candidate
-LOC_Os12g18729,12,D41-2_LT,23119,1.802962e-05,expressed protein,Ptr/Pita2,HIGH (validated)
+gene_id,chr,gene_start,gene_end,best_p,best_snp,min_distance_bp,n_hit_snps,traits,annotation,known_gene,confidence
+LOC_Os12g19304,12,11193846,11205134,3.565e-07,id12004284,939,1,12YL_LT,"Fe-S metabolism associated domain containing protein, expressed",,candidate
+LOC_Os12g18729,12,10822534,10833768,5.894e-07,id12004230,20485,8,12YL_LT;D41-2_LT,expressed protein,Ptr/Pita2,known R gene
+LOC_Os12g18770,12,10862289,10872221,5.894e-07,id12004230,0,5,12YL_LT;D41-2_LT,"oxysterol-binding protein, putative, expressed",,candidate
+LOC_Os12g17830,12,10207858,10211169,7.373e-07,id12003973,0,1,12YL_LT,expressed protein,,candidate
+LOC_Os12g18360,12,10606359,10612068,1.082e-06,id12004093,0,7,12YL_LT;D41-2_LT,"NB-ARC domain containing protein, expressed",Pita,known R gene
+LOC_Os12g19470,12,11320267,11322547,1.323e-06,ud12000700,0,1,12YL_LT,"ribulose bisphosphate carboxylase small chain, chloroplast precursor, putative, expressed",,candidate
+LOC_Os11g31330,11,18288357,18290726,1.342e-06,id11006398,0,1,D41-2_DLA,"no apical meristem protein, putative, expressed",,candidate
+LOC_Os12g19381,12,11262563,11278448,1.515e-06,id12004315,0,1,12YL_LT,"ribulose bisphosphate carboxylase small chain, chloroplast precursor, putative, expressed",,candidate
+LOC_Os12g20280,12,11843818,11845360,1.628e-06,id12004405,977,1,12YL_LT,expressed protein,,candidate
+LOC_Os12g18450,12,10669458,10671969,1.731e-06,id12004118,0,1,12YL_LT,expressed protein,,candidate
+LOC_Os12g22090,12,12425383,12432769,2.028e-06,id12004513,0,1,12YL_LT,expressed protein,,low (transposon-annotated)
+LOC_Os12g19180,12,11137921,11141605,2.028e-06,id12004269,215,1,12YL_LT,"ATP binding protein, putative, expressed",,candidate
+LOC_Os12g18150,12,10468182,10478398,2.639e-06,id12004058,0,1,12YL_LT,"ZOS12-04 - C2H2 zinc finger protein, expressed",,candidate
+LOC_Os12g17880,12,10254081,10257510,3.547e-06,ud12000654,5515,1,12YL_LT,"armadillo/beta-catenin repeat protein-related, putative, expressed",,candidate
+LOC_Os12g18070,12,10387170,10388456,6.87e-06,id12004003,0,1,12YL_LT,expressed protein,,candidate
+LOC_Os10g12620,10,7022929,7031173,7.339e-06,id10002284,0,1,D41-2_DLA,"protein kinase domain containing protein, expressed",,candidate
+LOC_Os12g18200,12,10506833,10515806,7.414e-06,id12004075,0,1,12YL_LT,"endonuclease/exonuclease/phosphatase family domain containing protein, expressed",,candidate
+LOC_Os12g25200,12,14487396,14491027,1.13e-05,id12005211,0,1,D41-2_DLA,"chloride transporter, chloride channel family, putative, expressed",,candidate
+LOC_Os12g18630,12,10756636,10762855,1.61e-05,id12004143,1354,1,D41-2_LT,expressed protein,,candidate
+LOC_Os11g40680,11,24278622,24280165,1.674e-05,id11009412,312,1,D41-2_DLA,"MBTB64 - Bric-a-Brac, Tramtrack, Broad Complex BTB domain with Meprin and TRAF Homology MATH domain, expressed",,candidate
+LOC_Os12g24550,12,14026695,14037355,1.676e-05,id12005070,0,1,D41-2_LT,expressed protein,,candidate
+LOC_Os10g12760,10,7121108,7127737,1.755e-05,id10002294,2247,1,D41-2_DLA,"retrotransposon protein, putative, unclassified, expressed",,low (transposon-annotated)
+LOC_Os12g18690,12,10799671,10802198,1.803e-05,id12004183,0,1,D41-2_LT,expressed protein,,candidate
+LOC_Os12g17310,12,9907483,9915066,2.022e-05,id12003875,0,1,12YL_LT,"prefoldin, putative, expressed",,candidate
+LOC_Os10g11200,10,6208918,6214147,2.024e-05,id10001923,1650,1,D41-2_DLA,"aminotransferase, classes I and II, domain containing protein, expressed",,candidate
+LOC_Os12g18080,12,10390667,10395133,2.926e-05,id12004010,661,1,D41-2_LT,"retrotransposon protein, putative, unclassified, expressed",,low (transposon-annotated)
+LOC_Os12g17900,12,10280904,10286711,2.926e-05,id12003996,1403,1,D41-2_LT,"armadillo/beta-catenin repeat family protein, putative, expressed",,candidate
